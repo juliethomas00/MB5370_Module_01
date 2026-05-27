@@ -618,7 +618,22 @@ source("Module 1, RScript - MB5370.R")
 #git push -u origin main
 ```
 
+```{r}
+# if I ever want to undo the last commit (while keeping files unchanged) => in terminal git reset --soft HEAD~1
+```
 
+```{r}
+# rendering RMarkdown files to HTML for blogging - run this code in a separate script/rmd or console
+
+#install.packages("knitr")
+#install.packages("markdown")
+
+library(knitr)
+library(markdown)
+
+knit("MB5370_Module_01_WorkbookRmd.Rmd") # produces a .md file
+markdownToHTML("MB5370_Module_01_WorkbookRmd.md", "MB5370_Module_01_WorkbookRmd", fragment.only=TRUE) # produces clean .html
+```
 
 
 
