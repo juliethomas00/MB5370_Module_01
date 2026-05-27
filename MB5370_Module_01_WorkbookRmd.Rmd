@@ -1,0 +1,638 @@
+---
+title: "Module1_MB5370"
+output: html_document
+date: "2026-05-20"
+---
+
+```{r setup, include=FALSE}
+install.packages("knitr")
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+```{r}
+# --------------------------- WORKSHOP 1 ---------------------------
+```
+
+```{r}
+# exercise 1, page 19
+
+exercise1 <- 15 + 25.1 + 20.25
+exercise1_num <- 32
+
+exercise1_sum <- exercise1 + exercise1_num
+
+print (exercise1_sum)
+```
+
+```{r}
+# practice tasks, page 21 - 22
+
+years_old <- 25.7
+round(years_old) # round up
+floor(years_old) # roud down
+
+years_old <- 25.765
+round(years_old, 2)
+```
+
+```{r}
+# exercise 2, page 20
+
+paste(first_name, 'is', years_old, 'years old')
+```
+```{r}
+# practice tasks, page 22 - 
+
+grade <- 55
+total <- grade + 10
+print (total)
+grade <- 90
+print (total) # value of total in a spreadsheet will be 100, but in programming a variable holds the value it was assigned (65)
+total <- grade + 10
+print (total) # executed in the way it was defined
+```
+```{r}
+# What will this code do?
+p <- 2
+z <- 5
+out <- p * z  # What should the value of out be?
+print (out) # What is the value of out? Is it the same as expected?
+```
+```{r}
+# Testing
+x <- 1
+is.character(x)
+is.numeric (x)
+```
+
+```{r}
+# exercise 3, page 22
+
+my_quiz <- c("uno",
+             "dos",
+             "tres",
+             "cuatro",
+             "cinco")
+print (my_quiz)
+str(my_quiz)
+length(my_quiz)
+
+# added a comma after "cuatro" - missing
+# typo in print (my_quis)
+# error in len - couldn't find function "len", had to change it to length
+```
+
+```{r}
+# practice tasks, page 22 -
+
+# six basic data types : character, numeric, integer, logical, complex, raw
+# built-in functions to help examine objects to understand type: class(), typeof(), length(), attributes()
+```
+
+```{r}
+# exercise, page 23
+
+my_numeric_variable = 4.2
+my_character_variable = 'julie'
+my_integer_variable = 8
+my_logical_variable = 5 > 3
+
+print(c (my_numeric_variable, my_character_variable, my_integer_variable, my_logical_variable)) 
+typeof(my_numeric_variable)
+typeof(my_character_variable)
+typeof(my_integer_variable)
+typeof(my_logical_variable)
+```
+
+```{r}
+# exercise, page 24
+
+y <- c(1, 2, 3)
+z <- c("Sarah", "Tracy", " Jon")
+
+class(z)
+class(y)
+
+# vectors - collection of elements of the same type
+```
+
+```{r}
+# lists - values of several different types
+
+x <- list(1, "a", TRUE)
+x
+x[[2]]
+```
+
+```{r}
+# data frames and tibbles - like excel spreadsheets, 2D or rectangular data files; each column holds elements of the same type
+
+# import from file like .csv or .xlsx or build in R from ground up
+my_dataframe <- data.frame (no = c(1, 2, 3), c("Tracey", "John", "Pete"), c(TRUE, FALSE, TRUE))
+my_dataframe
+str(my_dataframe)
+
+# makes a guess at type of each column, check and change if necessary by accessing column and changing type
+
+my_dataframe$no = as.factor(my_dataframe$no)
+str(my_dataframe)
+# factor is categorical type - telling R that column 1 is actually storing a category rather than a real continuous number
+
+# important each vector same length (column); use NA (cell with no data) - na.omit (remove rows with NAs) or is.na (check if value is not available)
+```
+
+```{r}
+# packages and libraries
+
+# use software that other people have written, collection of functions
+# published on The Comprehensive R Archive Network
+
+#install.packages("tidyverse")
+library(tidyverse)
+#install.packages("ggplot2")
+#install.packages("tidyr")
+#install.packages("earthtones")
+#install.packages("redlistr")
+#install.packages("dplyr")
+#install.packages("terra")
+library(ggplot2)
+library(tidyr) 
+library(earthtones)
+library(redlistr)
+library(dplyr)
+library(terra)
+
+# both ggplot2 and tidyr are part of tidyverse family of packages
+```
+
+```{r}
+# class discussion, page 27
+
+# We want to take a .csv dataset representing counts from a BRUVs survey and turn it into a plot of the abundance of a single species. What major steps - the main tasks you would need to do using programming - might be required to get from a structured .csv table to a plot of a single species? Record your answers in your script using numbered comments.
+
+# read .csv dataset into R
+# store it into an object to call
+# use ggplot2 to plot it
+
+# generic
+# 1. Import/load the .csv dataset into R
+#data <- read.csv("my_bruvs_data.csv")
+
+# 2. Inspect and clean the data
+#head(data)          # View first rows
+#str(data)           # Check structure/data types
+#summary(data)       # Summary statistics
+
+# Remove rows with missing values (optional)
+#data <- na.omit(data)
+
+# 3. Select/filter the data for the single species of interest
+#species_data <- subset(data, Species == "Target_Species")
+
+# 4. Summarise abundance data if needed
+# Example: total abundance by site
+
+#abundance_summary <- aggregate(Abundance ~ Site,
+                               #data = species_data,
+                               #FUN = sum)
+
+# View summary table
+#print(abundance_summary)
+
+# 5. Create the plot
+#barplot(abundance_summary$Abundance,
+        #names.arg = abundance_summary$Site,
+        #col = "skyblue",
+        #main = "Abundance of Target_Species",
+        #xlab = "Site",
+        #ylab = "Total Abundance")
+
+# 6. Add extra formatting if desired
+# (Already included above with title and axis labels)
+
+# 7. Save the plot (optional)
+#png("species_abundance_plot.png")
+#barplot(abundance_summary$Abundance,
+        #names.arg = abundance_summary$Site,
+        #col = "skyblue",
+        #main = "Abundance of Target_Species",
+        #xlab = "Site",
+        #ylab = "Total Abundance")
+#dev.off()
+```
+
+```{r}
+# --------------------------- WORKSHOP 2 ---------------------------
+```
+
+```{r}
+#install.packages("tidyverse")
+library(tidyverse)
+
+# plot first ggplot
+ggplot(data = mpg) +
+  geom_point(mapping = aes(x = displ, y = hwy))
+```
+
+```{r}
+# grammar of graphics - graphing template
+
+#ggplot(data = <DATA>) +
+  #<GEOM_FUNCTION>(mapping = aes(<MAPPINGS>))
+
+# aesthetic mappings - size, shape, colour
+
+# change point by class
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy, colour = class))
+```
+
+```{r}
+# change point size by class
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy, size = class)) # using size for a discrete variable is not advised
+```
+
+```{r}
+# change point transparency by class (alpha)
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy, alpha = class))
+
+```
+
+```{r}
+# change point shape by class
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy, shape = class))
+```
+
+```{r}
+# set properties manually, such as by offering a number or a colour; let's make them blue
+
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy), color = "blue")
+# changes the appearance of the plot, doesn't show anything about the nature of the variable you've plotted; make sure makes sense
+```
+
+```{r}
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy, color = displ < 5))
+```
+
+```{r}
+# facet and panel plots
+
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy)) + 
+  facet_wrap(~ class, nrow = 2)
+# use this to break single complex plot into many sub plots or panels - only use facet_wrap() for discrete variables
+```
+
+```{r}
+# if you want to do this with more than one variable, then use facet_grid(); needs two variables separated by a ~
+
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy)) + 
+  facet_grid(drv ~ cyl)
+```
+
+```{r}
+# use a '.' f don't want to facet in the rows or column dimension
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy)) + 
+  facet_grid(. ~ cyl)
+```
+
+```{r}
+# fitting simple lines
+
+# to display data as points:
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy))
+```
+
+```{r}
+# display as smooth line through points
+ggplot(data = mpg) + 
+  geom_smooth(mapping = aes(x = displ, y = hwy))
+```
+
+```{r}
+# change line type, use variable to control it
+
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy, color = drv)) +
+  geom_smooth(mapping = aes(x = displ, y = hwy, linetype = drv, color = drv))
+```
+
+```{r}
+# use group argument to show that our data is grouped; won't add new legend but can easily be used to vary your plots by the discrete variable
+
+ ggplot(data = mpg) +
+  geom_smooth(mapping = aes(x = displ, y = hwy, group = drv))
+```
+
+```{r}
+# change color of each line based on drv value
+
+ggplot(data = mpg) +
+  geom_smooth(
+    mapping = aes(x = displ, y = hwy, color = drv),
+    show.legend = FALSE,
+  )
+```
+
+```{r}
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy)) +
+  geom_smooth(mapping = aes(x = displ, y = hwy))
+
+# note how top and second rows are duplicated, meaning if you wanted to change the x variable in your plot, you'd need to change it in several locations; not ideal, increase chances of error
+# ggplot allows you to pass 'overarching' mappings to the ggplot - global mappings applied to every single subsequent geom
+```
+
+```{r}
+ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) + 
+  geom_point() + 
+  geom_smooth()
+```
+
+```{r}
+# display different aesthetics in different layers
+
+ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) + 
+  geom_point(mapping = aes(color = class)) + 
+  geom_smooth()
+```
+
+```{r}
+# specify different data for each layer - use filter (class = "subcompact") to select a subset of the data and plot only that subset
+
+ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) + 
+  geom_point(mapping = aes(color = class)) + 
+  geom_smooth(data = filter(mpg, class == "subcompact"), se = FALSE)
+```
+
+```{r}
+ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) + 
+  geom_line(mapping = aes(color = class))
+```
+
+```{r}
+ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) + 
+  geom_boxplot(mapping = aes(color = class))
+```
+
+```{r}
+ggplot(data = mpg, mapping = aes(x = displ)) + 
+  geom_histogram(mapping = aes(color = class)) # can't have both an x or a y variable in aes(x=)
+```
+
+```{r}
+ggplot(data = mpg, mapping = aes(y = hwy)) + 
+  geom_histogram(mapping = aes(color = class))
+```
+
+```{r}
+ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) + 
+  geom_area(mapping = aes(color = class))
+```
+
+```{r}
+ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) + 
+  geom_point() + 
+  geom_smooth()
+```
+
+```{r}
+ggplot() + 
+  geom_point(data = mpg, mapping = aes(x = displ, y = hwy)) + 
+  geom_smooth(data = mpg, mapping = aes(x = displ, y = hwy))
+```
+
+```{r}
+# transformations and data summarizes
+
+# plotting stats
+
+ggplot(data = diamonds) + 
+  geom_bar(mapping = aes(x = cut))
+
+# x-axis displays cut, a variable from diamonds dataset but ye is count but count is not a variable in diamonds - many graphs, like scatterplots, plot the raw values; other grpahs, like bar charts, calculate new values to plot
+# bar charts, histograms, and frequency polygons - bin, plot bin counts
+# smoothers - fit model to data and plot predictions from the model
+# boxplots - robust summary of distribution and then display a specially formatted box
+
+# algorithm used to calculate new values for a graph is called a stat
+```
+
+```{r}
+# can generally use geoms and stats interchangeably
+
+ggplot(data = diamonds) + 
+  stat_count(mapping = aes(x = cut))
+```
+
+```{r}
+# defaults in ggplot2
+
+# override default stat - change from default 'count' to 'identity' (raw value of a variable)
+
+demo <- tribble(
+  ~cut,         ~freq,
+  "Fair",       1610,
+  "Good",       4906,
+  "Very Good",  12082,
+  "Premium",    13791,
+  "Ideal",      21551
+)
+demo
+
+ggplot(data = demo) +
+  geom_bar(mapping = aes(x = cut, y = freq), stat = "identity")
+```
+
+```{r}
+ggplot(data = diamonds) + 
+  geom_bar(mapping = aes(x = cut, y = stat(prop), group = 1))
+# proportion rather than count
+```
+
+```{r}
+# plotting statistical details - be transparent about uncertainty or any other limitation of data
+
+ggplot(data = diamonds) + 
+  stat_summary(
+    mapping = aes(x = cut, y = depth),
+    fun.min = min,
+    fun.max = max,
+    fun = median
+  )
+```
+
+```{r}
+# aesthetic adjustments
+
+ggplot(data = diamonds) + 
+  geom_bar(mapping = aes(x = cut, colour = cut))
+```
+
+```{r}
+ggplot(data = diamonds) + 
+  geom_bar(mapping = aes(x = cut, fill = cut))
+```
+
+```{r}
+ggplot(data = diamonds) + 
+  geom_bar(mapping = aes(x = cut, fill = clarity))
+# aesthetics to colour by another variable like clarity; stacking done automatically, done behind the scenes with position argument
+```
+
+```{r}
+# ability to make position adjustments is vital, allows you to customize plots in 3 ways, identity (raw data), fill (changes heights), dodge (forces ggplot2 to not put things on top of each other)
+
+# if you use position = "identity" will be able to place each object exactly where it falls in the context of the graph; vital for point charts like scatter plots but makes a mess in a bar plot situation by showing too much information (generally summarizes information)
+
+#To alter transparency (alpha)
+ggplot(data = diamonds, mapping = aes(x = cut, fill = clarity)) + 
+  geom_bar(alpha = 1/5, position = "identity")
+```
+
+```{r}
+#To color the bar outlines with no fill color
+ggplot(data = diamonds, mapping = aes(x = cut, colour = clarity)) + 
+  geom_bar(fill = NA, position = "identity")
+```
+
+```{r}
+# position = 'fill' works like stacking but makes each set of stacked bars the same height
+
+ggplot(data = diamonds) + 
+  geom_bar(mapping = aes(x = cut, fill = clarity), position = "fill")
+```
+
+```{r}
+# position = "dodge" places overlapping objects directly beside one another
+
+ggplot(data = diamonds) + 
+  geom_bar(mapping = aes(x = cut, fill = clarity), position = "dodge")
+```
+
+```{r}
+# position = "jitter - slightly moves points so you can see them all (especially when they overlap), adds small amount of random noise to each point to avoid overplotting when points overlap
+
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy), position = "jitter")
+```
+
+```{r}
+# template for making a ggplot2
+
+#ggplot(data = <DATA>) + 
+  #<GEOM_FUNCTION>(
+     #mapping = aes(<MAPPINGS>),
+     #stat = <STAT>, 
+     #position = <POSITION>
+  #) +
+  #<FACET_FUNCTION>
+```
+
+```{r}
+# --------------------------- WORKSHOP 3 ---------------------------
+```
+
+```{r}
+# to call from an RScript (runs the whole thing, make sure no errors)
+getwd()
+source("Module 1, RScript - MB5370.R")
+```
+
+```{r}
+# communicating between R and Git
+# install.packages("usethis") - done in console (not script or qmd)
+
+# personal access tokens (classic), no expiry, check everything
+# to store in R => gitcreds::gitcreds_set(), then paste it in
+
+# tracking project, push it to GitHub
+# using usethis => in console - usethis::use_git()
+# using tools => Tools>Project Options...>Git/SVN; Under Version control system, select "Git", Confirm New Git Repository? Yes!
+# using terminal => run git init 
+
+# git tab symbols
+# A - added
+# D - deleted
+# M - modified
+# R - renamed
+# ? - untracked (click checkbox, ? turns into A so added to files want Git to track, known as staging)
+```
+
+```{r}
+# committing in Git
+
+# easiest way to Stage a file in RStudio is simply to check the box next to that file in the Git tab
+# made changes to different files in project but don't want to commit them all at once, select the ones you want to commit together, commit those files only
+# tick box in Git, click red/green thingy, pop up window, write commit message (must), commit
+```
+
+```{r}
+# pushing to GitHub
+
+# so far working locally on the one single version of this new project that now exists; can tell by looking at the buttons woulduse to Pull from or Push to GitHub remote
+# pull/push greyes out; push to get Git and GitHub to communicate; already have GitHubt accounts and project tracked by Git - easy => in console usethis::use_github() => replicate entire project (parts tracked by Git) onto GitHub (Remote)
+# automatically opened this file on GitHub online
+# I still can't use the pull and push buttons... but I do see my doc on GitHub
+
+# online
+# create new repository on the command line
+#echo "# Module-1---MB5370" >> README.md
+#git init
+#git add README.md
+#git commit -m "first commit"
+#git branch -M main
+#git remote add origin https://github.com/juliethomas00/Module-1---MB5370.git
+#git push -u origin main
+
+# or push an existing repository from the command line
+#git remote add origin https://github.com/juliethomas00/Module-1---MB5370.git
+#git branch -M main
+#git push -u origin main
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
