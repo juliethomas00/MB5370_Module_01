@@ -5,7 +5,7 @@ date: "2026-05-20"
 ---
 
 ```{r setup, include=FALSE}
-install.packages("knitr")
+#install.packages("knitr")
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
@@ -57,7 +57,7 @@ round(years_old, 2)
 ```{r}
 # exercise 2, page 20
 
-paste(first_name, 'is', years_old, 'years old')
+#paste(first_name, 'is', years_old, 'years old')
 ```
 ```{r}
 # practice tasks, page 22 - 
@@ -167,19 +167,19 @@ str(my_dataframe)
 # published on The Comprehensive R Archive Network
 
 #install.packages("tidyverse")
-library(tidyverse)
+#library(tidyverse)
 #install.packages("ggplot2")
 #install.packages("tidyr")
 #install.packages("earthtones")
 #install.packages("redlistr")
 #install.packages("dplyr")
 #install.packages("terra")
-library(ggplot2)
-library(tidyr) 
-library(earthtones)
-library(redlistr)
-library(dplyr)
-library(terra)
+#library(ggplot2)
+#library(tidyr) 
+#library(earthtones)
+#library(redlistr)
+#library(dplyr)
+#library(terra)
 
 # both ggplot2 and tidyr are part of tidyverse family of packages
 ```
@@ -246,7 +246,10 @@ library(terra)
 
 ```{r}
 #install.packages("tidyverse")
-library(tidyverse)
+#library(tidyverse)
+
+#install.packages("ggplot2")
+library(ggplot2)
 
 # plot first ggplot
 ggplot(data = mpg) +
@@ -387,9 +390,9 @@ ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) +
 ```{r}
 # specify different data for each layer - use filter (class = "subcompact") to select a subset of the data and plot only that subset
 
-ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) + 
-  geom_point(mapping = aes(color = class)) + 
-  geom_smooth(data = filter(mpg, class == "subcompact"), se = FALSE)
+#ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) + 
+  #geom_point(mapping = aes(color = class)) + 
+  #geom_smooth(data = filter(mpg, class == "subcompact"), se = FALSE)
 ```
 
 ```{r}
@@ -457,18 +460,18 @@ ggplot(data = diamonds) +
 
 # override default stat - change from default 'count' to 'identity' (raw value of a variable)
 
-demo <- tribble(
-  ~cut,         ~freq,
-  "Fair",       1610,
-  "Good",       4906,
-  "Very Good",  12082,
-  "Premium",    13791,
-  "Ideal",      21551
-)
-demo
+#demo <- tribble(
+  #~cut,         ~freq,
+  #"Fair",       1610,
+  #"Good",       4906,
+  #"Very Good",  12082,
+  #"Premium",    13791,
+  #"Ideal",      21551
+#)
+#demo
 
-ggplot(data = demo) +
-  geom_bar(mapping = aes(x = cut, y = freq), stat = "identity")
+#ggplot(data = demo) +
+  #geom_bar(mapping = aes(x = cut, y = freq), stat = "identity")
 ```
 
 ```{r}
@@ -562,8 +565,8 @@ ggplot(data = mpg) +
 
 ```{r}
 # to call from an RScript (runs the whole thing, make sure no errors)
-getwd()
-source("Module 1, RScript - MB5370.R")
+#getwd()
+#source("MB5370_Module_01_WorkbookScript")
 ```
 
 ```{r}
@@ -628,11 +631,11 @@ source("Module 1, RScript - MB5370.R")
 #install.packages("knitr")
 #install.packages("markdown")
 
-library(knitr)
-library(markdown)
+#library(knitr)
+#library(markdown)
 
-knit("MB5370_Module_01_WorkbookRmd.Rmd") # produces a .md file
-markdownToHTML("MB5370_Module_01_WorkbookRmd.md", "MB5370_Module_01_WorkbookRmd", fragment.only=TRUE) # produces clean .html
+#knit("MB5370_Module_01_WorkbookRmd.Rmd") # produces a .md file
+#markdownToHTML("MB5370_Module_01_WorkbookRmd.md", "MB5370_Module_01_WorkbookRmd", fragment.only=TRUE) # produces clean .html
 ```
 
 
