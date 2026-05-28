@@ -638,9 +638,65 @@ ggplot(data = mpg) +
 #markdownToHTML("MB5370_Module_01_WorkbookRmd.md", "MB5370_Module_01_WorkbookRmd", fragment.only=TRUE) # produces clean .html
 ```
 
+```{r}
+# --------------------------- WORKSHOP 4 ---------------------------
+```
 
+```{r}
+# adding copilot - Tools, Global Options, Copilot, sign in with GitHub
+# write what you want to do with comment out, then press enter, wait for it to appear and then tab
 
+# load tidyverse and palmerpenguins libraries
+#install.packages("tidyverse")
+#install.packages("palmerpenguins")
+library(tidyverse)
+library(palmerpenguins)
 
+# create a ggplot scatter plot using the penguins dataset
+# plot bill_length_mm on the x-axis and bill_depth_mm on the y-axis 
+# color the points by species and use geom_point with size 3
+# add a minimal theme and clean labels
+ggplot(data = penguins) +
+  geom_point(mapping = aes(x = bill_length_mm, y = bill_depth_mm, color = species), size = 3) +
+  theme_minimal() +
+  labs(title = "Bill Length vs Bill Depth of Palmer Penguins",
+       x = "Bill Length (mm)",
+       y = "Bill Depth (mm)",
+       color = "Species")
+```
+
+```{r}
+# Option A (Distribution Check): Instruct Copilot to generate a boxplot comparing flipper_length_mm across different species, faceted by island, using custom color palettes.
+
+# create boxplot using the penguins dataset
+# plot flipper_length_mm on the y-axis and species on the x-axis
+# facet the plot by island and use a custom color palette
+ggplot(data = penguins) +
+  geom_boxplot(mapping = aes(x = species, y = flipper_length_mm, fill = species)) +
+  facet_wrap(~ island) +
+  scale_fill_manual(values = c("Adelie" = "lightblue", "Chinstrap" = "lightgreen", "Gentoo" = "lightpink")) +
+  theme_minimal() +
+  labs(title = "Flipper Length of Palmer Penguins by Species and Island",
+       x = "Species",
+       y = "Flipper Length (mm)",
+       fill = "Species")
+```
+
+```{r}
+# Option B (Biomass Correlation): Instruct Copilot to build a scatter plot mapping body_mass_g against flipper_length_mm, adding a linear regression trend line (geom_smooth) for each species.
+
+# create scatter plot using penguins dataset
+# plot body_mass_g on the y-axis and flipper_length_mm on the x-axis
+# add a linear regression trend line for each species using geom_smooth for each species
+ggplot(data = penguins) +
+  geom_point(mapping = aes(x = flipper_length_mm, y = body_mass_g, color = species)) +
+  geom_smooth(mapping = aes(x = flipper_length_mm, y = body_mass_g, color = species), method = "lm", se = FALSE) +
+  theme_minimal() +
+  labs(title = "Body Mass vs Flipper Length of Palmer Penguins",
+       x = "Flipper Length (mm)",
+       y = "Body Mass (g)",
+       color = "Species")
+```
 
 
 
