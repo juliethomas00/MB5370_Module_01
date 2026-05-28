@@ -698,6 +698,273 @@ ggplot(data = penguins) +
        color = "Species")
 ```
 
+```{r}
+# chattr - fully integrated within RStudio, can securely read metadata from your active environment to provide contextual support
+
+#install.packages("ellmer")
+#install.packages("chattr")
+library(ellmer)
+library(chattr)
+
+# to power conversational engine, must connect it to a Large Language Model (LLM) - Google Gemini, OpenAI's ChatGPT, or Anthropic's Claude; requires Application Programming Interface (API) key
+
+# Google Gemini : shouldn't save in rmd
+# instead in console usethis::edit_r_environ(), opens .Renviron file, GEMINI_API_KEY="", save and restart
+
+# to ensure chattr always utilizes preferred model without needing manual re-connections every session, configure it inside permanent R profie
+# console - usethis::edit_r_profile(), in new file - options(.chattr_chat = ellmer::chat_google_gemini())
+```
+
+```{r}
+# to interact with AI, run chattr:chattr_app(), keyboard shortcut - navigate to Tools > Modify Keyboard Shortcuts, search for Open Chat, "Shortcut" and press desired combination alt+shift+c
+
+# show me how to load the built-in iris dataset and use ggplot2 to build a scatter plot of Sepal.Length vs Sepal.Width colored by Species; Copy to Document
+library(ggplot2)
+
+data(iris)
+
+ggplot(iris, aes(x = Sepal.Length, y = Sepal.Width, color = Species)) +
+  geom_point()
+
+```
+
+```{r}
+# conditional logic, filtering your data - filter outliers, classify categorical variables, or tag environments by environmental stress limits
+
+# base R : if and else
+# Simple Example: Checking Sea Surface Temperature (SST)
+sst <- 30.2
+
+if (sst > 29.5) {
+  print("Warning: Marine heatwave threshold exceeded!")
+} else {
+  print("SST remains within baseline parameters.")
+}
+
+# tidyverse alternative, vectorized conditionals (dplyr)
+# if else breaks down when pass entire column (vector) of data
+
+# Load tidyverse (if not already loaded)
+library(tidyverse)
+
+# Sample coral data
+coral_monitoring <- tibble(
+  site = c("Site_A", "Site_B", "Site_C"),
+  depth_m = c(12, 35, 8)
+)
+
+# Classify depth using if_else
+coral_monitoring <- coral_monitoring %>% 
+  mutate(zone = if_else(depth_m > 30, "Deep Reef", "Shallow Reef"))
+
+# when have more than 2 possibilities, case_when - sequential evaluation layout
+coral_monitoring <- coral_monitoring %>% 
+  mutate(reef_category = case_when(
+    depth_m < 10  ~ "Lagoon / Flats",
+    depth_m <= 30 ~ "Crest / Slope",
+    depth_m > 30  ~ "Mesophotic / Deep",
+    TRUE          ~ "Unclassified" # Catch-all remainder
+  ))
+
+# environmental stress classification : Using the chattr app or inline copilot, your task here is to write an R script that initialises a tibble named marine_stations containing a column for salinity with values 35, 28, 32, and 12. Use the pipe operator (%>%) and mutate() combined with case_when() to create a new column named environment_type. Classify values below 15 as "Estuarine", values between 15 and 30 as "Brackish", and values above 30 as "Marine". Run your script and verify the table structure.
+
+library(dplyr)
+library(tibble)
+
+marine_stations <- tibble(
+  salinity = c(35, 28, 32, 12)
+) %>%
+  mutate(
+    environment_type = case_when(
+      salinity < 15 ~ "Estuarine",
+      salinity >= 15 & salinity <= 30 ~ "Brackish",
+      salinity > 30 ~ "Marine"
+    )
+  )
+
+marine_stations
+```
+
+```{r}
+# automation - iterating efficiently
+
+# repeat task across multiple items without manual copy-pasting
+# Classic loop anatomy
+for (year in 2020:2024) {
+  print(paste("Processing climate data for year:", year))
+}
+
+# real-world data, loops can iterate over file directories
+# Loop across index sequences
+transect_lengths <- c(50, 100, 25, 75)
+
+for (i in seq_along(transect_lengths)) {
+  print(paste("Transect number", i, "measures", transect_lengths[i], "metres."))
+}
+```
+
+```{r}
+# tidyverse alternative, functional programming (purrr)
+
+# map() - returns a flexible List structure
+# map_db() - returns a vector of decimals / numeric values
+# map_chr() - returns a vector of text strings / characters
+# map_df() - returns a combined data frame / tibble
+
+# using standard for-loop:
+site_areas <- c(144, 400, 625)
+results <- numeric(length(site_areas)) # Must build an empty container first
+
+for(i in seq_along(site_areas)) {
+  results[i] <- sqrt(site_areas[i])
+}
+
+# using the puur equivalent
+library(purrr)
+# Map directly and define your expected output type explicitly
+mapped_results <- map_dbl(site_areas, sqrt)
+print(mapped_results)
+
+# iterating across complex groups
+# Iterate a summary function over split lists of data
+iris %>% 
+  split(.$Species) %>% 
+  map(~summary(.x))
+
+# I have a list of three vectors containing fish count data. Write a for-loop to calculate the mean of each, and then show me the exact parallel way to do it using purrr's map_dbl function." Compare the visual simplicity
+library(purrr)
+
+fish_counts_list <- list(
+  reef_a = c(10, 15, 12, 18, 20),
+  reef_b = c(5, 8, 7, 10),
+  reef_c = c(22, 25, 20, 28, 30, 27)
+)
+
+# For-loop approach
+mean_counts_for_loop <- numeric(length(fish_counts_list))
+for (i in seq_along(fish_counts_list)) {
+  mean_counts_for_loop[i] <- mean(fish_counts_list[[i]])
+}
+print(mean_counts_for_loop)
+
+# purrr::map_dbl approach
+mean_counts_map_dbl <- map_dbl(fish_counts_list, mean)
+print(mean_counts_map_dbl)
+
+```
+
+```{r}
+# writing custom functions
+
+# function construction blueprint - Name, Arguments (input variables) and a Bdy (execution logic wrapped inside the curly braces)
+
+# Function Definition
+calculate_coral_mortality <- function(initial_count, surviving_count) {
+  
+  # Logic safety switch using our conditional tools!
+  if (initial_count <= 0) {
+    stop("Initial count must be greater than zero.")
+  }
+  
+  mortality_rate <- (initial_count - surviving_count) / initial_count
+  return(mortality_rate)
+}
+
+# Utilizing your custom function
+calculate_coral_mortality(initial_count = 120, surviving_count = 84)
+
+# always test in clean environment, rely strictly on arguments passed into them rather than accidentally grabbing random background objects floating in your global R environment
+```
+
+```{r}
+# custom function construction task
+
+# Function Definition
+convert_temp_c_to_f <- function(temp_c) {
+  
+  # Logic safety switch using our conditional tools!
+  if (temp_c <= -273.15) {
+    stop("Initial count must be greater than absolute zero.")
+  }
+  
+  conversion <- (temp_c*9/5 + 32)
+  return(conversion)
+}
+
+# convert_temp_c_to_f(temp_c = -300) => error
+convert_temp_c_to_f(temp_c = -35)
+```
+
+```{r}
+# advanced scripting extension challenges
+
+# challenge 1: nested multi-vector iteration
+# Read the documentation for purrr::map2_dbl(). Given a vector of raw survey counts counts <- c(15, 24, 8, 42) and a vector of species-specific scaling factors factors <- c(1.2, 0.8, 2.5, 1.1), write a mapping statement that iterates across both vectors simultaneously to return a single vector of scaled abundance values.
+
+raw_survey_counts <- c(15, 24, 8, 42)
+species_scaling_factors <- c(1.2, 0.8, 2.5, 1.1)
+
+challenge1_results <- map2_dbl(raw_survey_counts, species_scaling_factors, ~ .x * .y)
+challenge1_results
+```
+
+```{r}
+# challenge 2: custom function named clean_and_classify_survey that handles complex data frame structures
+# Accept a data frame and a column name threshold parameter as inputs
+# Safely check if the specified column name exists within the passed data frame; if it does not, trigger a user-friendly error message using stop().
+# Filter out rows containing missing values (NA) within that specific column.
+# Use the pipe operator and mutate() along with a vectorised conditional (if_else() or case_when()) to append a status string variable classification based on your threshold parameter.
+# Return the cleaned, altered data frame to the global environment.
+
+clean_and_classify_survey <- function (df, column_name, threshold) {
+  
+  # Check if the specified column exists
+  if (!column_name %in% colnames(df)) {
+    stop(paste("Error: Column", column_name, "does not exist in the data frame."))
+  }
+  
+  # Filter out rows with NA values in the specified column and classify based on threshold
+  cleaned_df <- df %>%
+    filter(!is.na(.data[[column_name]])) %>%
+    mutate(classification = if_else(.data[[column_name]] > threshold, "Above Threshold", "Below Threshold"))
+  
+  return(cleaned_df)
+}
+
+df <- tribble(
+  ~cut,         ~freq,     ~price,
+  "Fair",       1610,     500,
+  "Good",       4906,     1500,
+  "Very Good",  12082,    2000,
+  "Premium",    13791,    2500,
+  "Ideal",      21551,    NA,
+  "Perfect",     NA,      4000
+)
+
+
+#clean_and_classify_survey(df, "Great", 800) # Error : Column Great does not exist in the data frame.
+clean_and_classify_survey(df, "freq", 13000)
+clean_and_classify_survey(df, "price", 1800)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
